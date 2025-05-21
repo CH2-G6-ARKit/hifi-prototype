@@ -9,12 +9,18 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        Text("This is the home page")
-        
-        Button() {
-            
-        } label: {
-            Text("Play")
+        NavigationStack {
+            VStack {
+                Text("This is the home page")
+                
+                NavigationLink(destination: MapView()) {
+                    Text("Play")
+                }
+            }
         }
     }
+}
+
+#Preview {
+    HomeView()
 }

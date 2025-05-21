@@ -9,16 +9,18 @@ import SwiftUI
 
 struct MapView: View {
     var body: some View {
-        Button() {
-            ARViewContainer()
+        VStack {
+           
+            NavigationLink(destination: ARViewContainer()
                 .ignoresSafeArea(edges: .all)
-        } label: {
+            ) {
+                Text("This is first map")
+            }
+            
+            Text("This is second map")
+            Text("This is third map")
             Text("This is first map")
         }
-        
-        Text("This is second map")
-        Text("This is third map")
-        Text("This is first map")
     }
 }
 
