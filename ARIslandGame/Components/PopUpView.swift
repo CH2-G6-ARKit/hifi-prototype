@@ -9,24 +9,23 @@ import SwiftUI
 struct PopUpView: View {
     @Binding var showPopUp: Bool
     let type: Types
+    var onAnswered: ((Bool) -> Void)? = nil
+//    var onFragmentDismissed: (() -> Void)? = nil
+
     
     @State private var status: String = "empty"
     
     func buttonAction(num: String, item: Object) {
-        if num == item.choices[item.answer] {
-            status = "right"
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                showPopUp = false
-            }
-        } else {
-            status = "wrong"
+            let isCorrect = num == item.choices[item.answer]
+            onAnswered?(isCorrect)
         }
-    }
+    
     
     enum Types {
         case question(Object)
         case result(Bool)
         case fragment
+        case lost
     }
     
     var body: some View {
@@ -110,7 +109,11 @@ struct PopUpView: View {
                         Image(isCorrect ? "right" : "wrong")
                             .resizable()
                             .frame(width: 200, height: 200)
-                        Text(isCorrect ? "RIDDLE SOLVED" : "RETRY")
+                        Text(isCorrect ? "RIDDLE SOLVED!" : "WRONG ANSWER")
+                            .font(.jaroTitle)
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.center)
+//                            .glowBorder(color: .black, lineWidth: 8)
                             .padding()
                             .background(.white)
                             .cornerRadius(10)
@@ -119,25 +122,66 @@ struct PopUpView: View {
                                     .stroke(lineWidth: 2)
                             )
                             .offset(y:95)
-                        if !isCorrect{
-                            Text("YOU GOT IT WRONG")
-                                .padding()
-                                .background(.white)
-                                .cornerRadius(10)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(lineWidth: 2)
-                                )
-                                .offset(y:-95)
-                        }
+//                        if !isCorrect{
+//                            Text("YOU GOT IT WRONG")
+//                                .font(.jaroBig)
+////                                .padding()
+////                                .background(.white)
+////                                .cornerRadius(10)
+//                                .offset(y:-95)
+//                        }
                     }
                     
                 case .fragment:
-                    Text("Information here")
-                        .font(.londrinaHeadline)
-                        .padding()
-                        .background(Color.brown)
+                    ZStack {
+                        VStack {
+                            Image("map")
+                                .resizable()
+                                .frame(width:200, height:150)
+                            
+//                            NavigationLink(destination: MapView()
+//                                .ignoresSafeArea(edges: .all)
+//                            ) {
+//                                Text("OK")
+//                                    .padding()
+//                                    .padding(.horizontal, 20)
+//                                    .foregroundColor(.white)
+//                                    .background(.black)
+//                                    .cornerRadius(10)
+//                            }
+                        }
+                        .frame(width: 400, height: 250)
+                        .background(Color.white)
                         .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.black, lineWidth: 2)
+                        )
+                        .padding(.horizontal, 100)
+                        .transition(.scale.combined(with: .opacity))
+                        
+//                        Button {
+//                            showPopUp = false
+//                        } label: {
+//                            Image(systemName: "multiply.circle")
+//                                .foregroundColor(.black)
+//                                .font(.title2)
+//                        }
+//                        .offset(x:170, y:-100)
+//                        .buttonStyle(.plain)
+                        
+                        Text("YOU GOT NEW FRAGMENT!")
+                            .font(.londrinaHeadline)
+                            .foregroundColor(.white)
+                            .frame(width: 200, height: 50)
+                            .background(.black)
+                            .cornerRadius(10)
+                            .offset(y: -(500/4))
+                        
+                    }
+                    
+                case .lost:
+                    Text("lost")
                 }
             }
         }

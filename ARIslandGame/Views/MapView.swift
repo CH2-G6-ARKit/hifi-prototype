@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MapView: View {
+    let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
+    
     var body: some View {
         VStack {
            

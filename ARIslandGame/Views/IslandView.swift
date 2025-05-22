@@ -11,6 +11,27 @@ struct IslandView: View {
     //    @Binding var isPresented: Bool
     @State var selectedPart: String? = nil
     @State var showPopUp = false
+    @State private var currentPopUpType: PopUpView.Types? = nil
+    
+    func handleAnswer(isCorrect: Bool) {
+        currentPopUpType = .result(isCorrect)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if isCorrect {
+                currentPopUpType = .fragment
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    showPopUp = false
+                    selectedPart = nil
+                    currentPopUpType = nil
+                }
+            } else {
+//                showPopUp = false
+//                selectedPart = nil
+                currentPopUpType = .question(gemObject)
+            }
+        }
+    }
+    
     
     let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
     
@@ -27,13 +48,16 @@ struct IslandView: View {
                 .transition(.move(edge: .bottom))
                 .animation(.easeInOut, value: selectedPart)
             }
-            else{
-                PopUpView(showPopUp: $showPopUp, type: .question(gemObject))
+            else if let currentType = currentPopUpType {
+                PopUpView(showPopUp: $showPopUp, type: currentType) { isCorrect in
+                    handleAnswer(isCorrect: isCorrect)
+                }
             }
         }
         // Listen to changes in selectedPart to control the popup
         .onChange(of: selectedPart) { newValue in
             if newValue == gemObject.name {
+                currentPopUpType = .question(gemObject)
                 showPopUp = true
             }
         }
