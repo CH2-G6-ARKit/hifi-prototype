@@ -6,20 +6,42 @@
 //
 import SwiftUI
 
+extension Text {
+    func outlinedText(strokeColor: Color = .black, textColor: Color = .white, lineWidth: CGFloat = 2) -> some View {
+        ZStack {
+            // Stroke layers
+            ForEach([
+                CGSize(width: -lineWidth, height: 0),
+                CGSize(width: lineWidth, height: 0),
+                CGSize(width: 0, height: -lineWidth),
+                CGSize(width: 0, height: lineWidth),
+                CGSize(width: -lineWidth, height: -lineWidth),
+                CGSize(width: -lineWidth, height: lineWidth),
+                CGSize(width: lineWidth, height: -lineWidth),
+                CGSize(width: lineWidth, height: lineWidth),
+            ], id: \.self) { offset in
+                self
+                    .foregroundColor(strokeColor) // Stroke color
+                    .offset(x: offset.width, y: offset.height+3)
+            }
+
+            // Main centered text
+            self
+                .foregroundColor(textColor)
+        }
+    }
+}
+
+
 struct PopUpView: View {
     @Binding var showPopUp: Bool
     let type: Types
     var onAnswered: ((Bool) -> Void)? = nil
-//    var onFragmentDismissed: (() -> Void)? = nil
-
-    
-    @State private var status: String = "empty"
     
     func buttonAction(num: String, item: Object) {
             let isCorrect = num == item.choices[item.answer]
             onAnswered?(isCorrect)
         }
-    
     
     enum Types {
         case question(Object)
@@ -109,27 +131,12 @@ struct PopUpView: View {
                         Image(isCorrect ? "right" : "wrong")
                             .resizable()
                             .frame(width: 200, height: 200)
-                        Text(isCorrect ? "RIDDLE SOLVED!" : "WRONG ANSWER")
-                            .font(.jaroTitle)
-                            .foregroundColor(.black)
+                        Text(isCorrect ? "RIDDLE \n SOLVED!" : "WRONG \n ANSWER")
+                            .font(.jaroBig)
+                            .outlinedText(strokeColor: .black, textColor: .white, lineWidth: 5.5)
                             .multilineTextAlignment(.center)
-//                            .glowBorder(color: .black, lineWidth: 8)
                             .padding()
-                            .background(.white)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(lineWidth: 2)
-                            )
                             .offset(y:95)
-//                        if !isCorrect{
-//                            Text("YOU GOT IT WRONG")
-//                                .font(.jaroBig)
-////                                .padding()
-////                                .background(.white)
-////                                .cornerRadius(10)
-//                                .offset(y:-95)
-//                        }
                     }
                     
                 case .fragment:
@@ -181,7 +188,17 @@ struct PopUpView: View {
                     }
                     
                 case .lost:
-                    Text("lost")
+                    ZStack{
+                        Image("lost")
+                            .resizable()
+                            .frame(width: 200, height: 200)
+                        Text("YOU LOST")
+                            .font(.jaroBigX)
+                            .outlinedText(strokeColor: .black, textColor: .white, lineWidth: 5.5)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                            .offset(y:95)
+                    }
                 }
             }
         }
@@ -196,6 +213,7 @@ struct PopUpView: View {
 //    PopUpView(showPopUp: .constant(true), type: .question(short))
 //    PopUpView(showPopUp: .constant(true), type: .question(long))
 //            PopUpView(showPopUp: .constant(true), type: .result(true))
-//        PopUpView(showPopUp: .constant(true), type: .result(false))
-        PopUpView(showPopUp: .constant(true), type: .fragment)
+        PopUpView(showPopUp: .constant(true), type: .result(false))
+//        PopUpView(showPopUp: .constant(true), type: .fragment)
+//    PopUpView(showPopUp: .constant(true), type: .lost)
 }

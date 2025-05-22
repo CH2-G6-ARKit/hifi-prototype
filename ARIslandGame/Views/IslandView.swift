@@ -25,8 +25,6 @@ struct IslandView: View {
                     currentPopUpType = nil
                 }
             } else {
-//                showPopUp = false
-//                selectedPart = nil
                 currentPopUpType = .question(gemObject)
             }
         }
@@ -39,6 +37,16 @@ struct IslandView: View {
         ZStack(alignment: .topTrailing) {
             ARViewContainer(selectedPart: $selectedPart)
                 .ignoresSafeArea(edges: .all)
+            
+            HStack{
+                Image("check_frag")
+                    .scaleImage(ratio: 0.7, imageName: "check_frag")
+                    .padding(.horizontal, 10)
+                Image("hint")
+                    .scaleImage(ratio: 0.7, imageName: "hint")
+            }
+            .offset(x:300, y:-120)
+            .zIndex(1)
             
             if let part = selectedPart, part != gemObject.name {
                 VStack {
