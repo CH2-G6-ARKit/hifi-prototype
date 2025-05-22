@@ -12,6 +12,7 @@ struct IslandView: View {
     @State var selectedPart: String? = nil
     @State var showPopUp = false
     @State private var currentPopUpType: PopUpView.Types? = nil
+    @EnvironmentObject var gameData: GameModel
     
     func handleAnswer(isCorrect: Bool) {
         currentPopUpType = .result(isCorrect)
@@ -19,6 +20,8 @@ struct IslandView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if isCorrect {
                 currentPopUpType = .fragment
+                gameData.addCollectedFragment()
+                gameData.resetChances()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     showPopUp = false
                     selectedPart = nil
@@ -26,6 +29,7 @@ struct IslandView: View {
                 }
             } else {
                 currentPopUpType = .question(gemObject)
+                gameData.decreaseAnswerChances()
             }
         }
     }
