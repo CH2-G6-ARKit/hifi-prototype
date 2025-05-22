@@ -6,27 +6,48 @@
 //
 import SwiftUI
 
+extension Text {
+    func outlinedText(strokeColor: Color = .black, textColor: Color = .white, lineWidth: CGFloat = 2) -> some View {
+        ZStack {
+            // Stroke layers
+            ForEach([
+                CGSize(width: -lineWidth, height: 0),
+                CGSize(width: lineWidth, height: 0),
+                CGSize(width: 0, height: -lineWidth),
+                CGSize(width: 0, height: lineWidth),
+                CGSize(width: -lineWidth, height: -lineWidth),
+                CGSize(width: -lineWidth, height: lineWidth),
+                CGSize(width: lineWidth, height: -lineWidth),
+                CGSize(width: lineWidth, height: lineWidth),
+            ], id: \.self) { offset in
+                self
+                    .foregroundColor(strokeColor) // Stroke color
+                    .offset(x: offset.width, y: offset.height+3)
+            }
+
+            // Main centered text
+            self
+                .foregroundColor(textColor)
+        }
+    }
+}
+
+
 struct PopUpView: View {
     @Binding var showPopUp: Bool
     let type: Types
-    
-    @State private var status: String = "empty"
+    var onAnswered: ((Bool) -> Void)? = nil
     
     func buttonAction(num: String, item: Object) {
-        if num == item.choices[item.answer] {
-            status = "right"
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                showPopUp = false
-            }
-        } else {
-            status = "wrong"
+            let isCorrect = num == item.choices[item.answer]
+            onAnswered?(isCorrect)
         }
-    }
     
     enum Types {
         case question(Object)
         case result(Bool)
         case fragment
+        case lost
     }
     
     var body: some View {
@@ -110,34 +131,74 @@ struct PopUpView: View {
                         Image(isCorrect ? "right" : "wrong")
                             .resizable()
                             .frame(width: 200, height: 200)
-                        Text(isCorrect ? "RIDDLE SOLVED" : "RETRY")
+                        Text(isCorrect ? "RIDDLE \n SOLVED!" : "WRONG \n ANSWER")
+                            .font(.jaroBig)
+                            .outlinedText(strokeColor: .black, textColor: .white, lineWidth: 5.5)
+                            .multilineTextAlignment(.center)
                             .padding()
-                            .background(.white)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(lineWidth: 2)
-                            )
                             .offset(y:95)
-                        if !isCorrect{
-                            Text("YOU GOT IT WRONG")
-                                .padding()
-                                .background(.white)
-                                .cornerRadius(10)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(lineWidth: 2)
-                                )
-                                .offset(y:-95)
-                        }
                     }
                     
                 case .fragment:
-                    Text("Information here")
-                        .font(.londrinaHeadline)
-                        .padding()
-                        .background(Color.brown)
+                    ZStack {
+                        VStack {
+                            Image("map")
+                                .resizable()
+                                .frame(width:200, height:150)
+                            
+//                            NavigationLink(destination: MapView()
+//                                .ignoresSafeArea(edges: .all)
+//                            ) {
+//                                Text("OK")
+//                                    .padding()
+//                                    .padding(.horizontal, 20)
+//                                    .foregroundColor(.white)
+//                                    .background(.black)
+//                                    .cornerRadius(10)
+//                            }
+                        }
+                        .frame(width: 400, height: 250)
+                        .background(Color.white)
                         .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.black, lineWidth: 2)
+                        )
+                        .padding(.horizontal, 100)
+                        .transition(.scale.combined(with: .opacity))
+                        
+//                        Button {
+//                            showPopUp = false
+//                        } label: {
+//                            Image(systemName: "multiply.circle")
+//                                .foregroundColor(.black)
+//                                .font(.title2)
+//                        }
+//                        .offset(x:170, y:-100)
+//                        .buttonStyle(.plain)
+                        
+                        Text("YOU GOT NEW FRAGMENT!")
+                            .font(.londrinaHeadline)
+                            .foregroundColor(.white)
+                            .frame(width: 200, height: 50)
+                            .background(.black)
+                            .cornerRadius(10)
+                            .offset(y: -(500/4))
+                        
+                    }
+                    
+                case .lost:
+                    ZStack{
+                        Image("lost")
+                            .resizable()
+                            .frame(width: 200, height: 200)
+                        Text("YOU LOST")
+                            .font(.jaroBigX)
+                            .outlinedText(strokeColor: .black, textColor: .white, lineWidth: 5.5)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                            .offset(y:95)
+                    }
                 }
             }
         }
@@ -152,6 +213,7 @@ struct PopUpView: View {
 //    PopUpView(showPopUp: .constant(true), type: .question(short))
 //    PopUpView(showPopUp: .constant(true), type: .question(long))
 //            PopUpView(showPopUp: .constant(true), type: .result(true))
-//        PopUpView(showPopUp: .constant(true), type: .result(false))
-        PopUpView(showPopUp: .constant(true), type: .fragment)
+        PopUpView(showPopUp: .constant(true), type: .result(false))
+//        PopUpView(showPopUp: .constant(true), type: .fragment)
+//    PopUpView(showPopUp: .constant(true), type: .lost)
 }

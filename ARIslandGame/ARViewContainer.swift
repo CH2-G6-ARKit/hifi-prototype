@@ -12,21 +12,21 @@ struct ARViewContainer: UIViewRepresentable {
     @Binding var selectedPart: String?
     let gem = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
     
-    func printEntities(_ entity: Entity, level: Int = 0) {
-        let indent = String(repeating: "  ", count: level)
-        print("\(indent)Entity: \(entity.name)")
-        for child in entity.children {
-            printEntities(child, level: level + 1)
-        }
-    }
-    
-    func printHierarchy(_ entity: Entity, level: Int = 0) {
-        let indent = String(repeating: "  ", count: level)
-        print("\(indent)- \(entity.name) (\(type(of: entity)))")
-        for child in entity.children {
-            printHierarchy(child, level: level + 1)
-        }
-    }
+//    func printEntities(_ entity: Entity, level: Int = 0) {
+//        let indent = String(repeating: "  ", count: level)
+//        print("\(indent)Entity: \(entity.name)")
+//        for child in entity.children {
+//            printEntities(child, level: level + 1)
+//        }
+//    }
+//    
+//    func printHierarchy(_ entity: Entity, level: Int = 0) {
+//        let indent = String(repeating: "  ", count: level)
+//        print("\(indent)- \(entity.name) (\(type(of: entity)))")
+//        for child in entity.children {
+//            printHierarchy(child, level: level + 1)
+//        }
+//    }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(selectedPart: $selectedPart)
@@ -93,9 +93,9 @@ struct ARViewContainer: UIViewRepresentable {
 //        uiView.scene.anchors.append(anchor)
         uiView.scene.addAnchor(anchor)
         
-        uiView.scene.anchors.forEach { anchor in
-            printEntities(anchor)
-        }
+//        uiView.scene.anchors.forEach { anchor in
+//            printEntities(anchor)
+//        }
     }
     
     class Coordinator: NSObject {
