@@ -13,6 +13,7 @@ final class IslandEntity: Entity, HasModel {
         let model = try! Entity.loadModel(named: "edited_island")
         model.scale = .init(repeating: 0.2)
         model.position = [0, 0, -0.0005]
+        model.components.set(CollisionComponent(shapes: []))
         self.addChild(model)
         self.name = "edited_island"
     }

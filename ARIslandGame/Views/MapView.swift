@@ -11,7 +11,7 @@ struct MapView: View {
     var body: some View {
         VStack {
            
-            NavigationLink(destination: ARViewContainer()
+            NavigationLink(destination: IslandView()
                 .ignoresSafeArea(edges: .all)
             ) {
                 Text("This is first map")

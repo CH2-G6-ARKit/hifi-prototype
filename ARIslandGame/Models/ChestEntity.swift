@@ -13,7 +13,9 @@ final class ChestEntity: Entity, HasModel {
         let model = try! Entity.loadModel(named: "gems")
         model.scale = .init(repeating: 0.00002)
         model.position = [0.016, 0.288, -0.00658]
+        model.generateCollisionShapes(recursive: true)
+//        model.name = self.name
         self.addChild(model)
-        self.name = "chest"
+        self.name = "gems"
     }
 }
