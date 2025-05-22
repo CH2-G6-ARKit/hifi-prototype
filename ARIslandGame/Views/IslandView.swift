@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct IslandView: View {
-//    @Binding var isPresented: Bool
+    //    @Binding var isPresented: Bool
     @State var selectedPart: String? = nil
     @State var showPopUp = false
-
+    
     let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
-
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             ARViewContainer(selectedPart: $selectedPart)
                 .ignoresSafeArea(edges: .all)
-
+            
             if let part = selectedPart, part != gemObject.name {
                 VStack {
                     Spacer()
@@ -27,21 +27,9 @@ struct IslandView: View {
                 .transition(.move(edge: .bottom))
                 .animation(.easeInOut, value: selectedPart)
             }
-
-            // Show PopUpView if gem tapped
-//            PopUpView(showPopUp: $showPopUp, item: gemObject)
-            PopUpView(showPopUp: $showPopUp, type: .question(gemObject))
-            
-
-
-//            Button {
-//                isPresented.toggle()
-//            } label: {
-//                Image(systemName: "xmark")
-//                    .font(.title)
-//                    .background(.ultraThinMaterial)
-//            }
-//            .padding(24)
+            else{
+                PopUpView(showPopUp: $showPopUp, type: .question(gemObject))
+            }
         }
         // Listen to changes in selectedPart to control the popup
         .onChange(of: selectedPart) { newValue in
