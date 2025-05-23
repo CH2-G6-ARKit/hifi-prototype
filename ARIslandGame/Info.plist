@@ -6,9 +6,9 @@
 	<array>
 		<string>Jaro.ttf</string>
 		<string>LondrinaSolid-Black.ttf</string>
-		<string>LondrinaSolid-Light.ttf</string>
 		<string>LondrinaSolid-Regular.ttf</string>
 		<string>LondrinaSolid-Thin.ttf</string>
+		<string>LondrinaSolid-Light.ttf</string>
 	</array>
 </dict>
 </plist>
