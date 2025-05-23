@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct MapView: View {
+    @EnvironmentObject var gameData: GameModel
+    
     let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
     
     var body: some View {
         VStack {
-           
-            NavigationLink(destination: IslandView()
+            Text("Collected Fragments: \(gameData.collectedFragment) / 4")
+                .padding(20)
+            
+            NavigationLink(destination: IslandView().environmentObject(gameData)
                 .ignoresSafeArea(edges: .all)
             ) {
                 Text("This is first map")
@@ -28,4 +32,5 @@ struct MapView: View {
 
 #Preview {
     MapView()
+        .environmentObject(GameModel())
 }
