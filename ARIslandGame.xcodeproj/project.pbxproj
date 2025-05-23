@@ -29,9 +29,22 @@
 		D4782CAB2DDC764B00D65E85 /* ARIslandGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARIslandGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D6B6B6722DE05FE700575D0D /* Exceptions for "ARIslandGame" folder in "ARIslandGame" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D4782C902DDC764A00D65E85 /* ARIslandGame */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D4782C932DDC764A00D65E85 /* ARIslandGame */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D6B6B6722DE05FE700575D0D /* Exceptions for "ARIslandGame" folder in "ARIslandGame" target */,
+			);
 			path = ARIslandGame;
 			sourceTree = "<group>";
 		};
@@ -399,7 +412,7 @@
 				DEVELOPMENT_TEAM = QZ9RC3AJUB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ARIslandGame/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/ARIslandGame/Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires your camera for AR";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -429,7 +442,7 @@
 				DEVELOPMENT_TEAM = QZ9RC3AJUB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ARIslandGame/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/ARIslandGame/Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires your camera for AR";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
