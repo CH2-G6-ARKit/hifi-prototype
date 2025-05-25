@@ -11,14 +11,16 @@ struct IslandView: View {
     //    @Binding var isPresented: Bool
     @State var selectedPart: String? = nil
     @State var showPopUp = false
+    @State private var shouldRetry = false
     @State private var currentPopUpType: PopUpView.Types? = nil
     @EnvironmentObject var gameData: GameModel
+
     
     func handleAnswer(isCorrect: Bool) {
         currentPopUpType = .result(isCorrect)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            if isCorrect {
+
+        if isCorrect {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 currentPopUpType = .fragment
                 gameData.addCollectedFragment()
                 gameData.resetChances()
@@ -27,13 +29,18 @@ struct IslandView: View {
                     selectedPart = nil
                     currentPopUpType = nil
                 }
-            } else {
-                currentPopUpType = .question(gemObject)
-                gameData.decreaseAnswerChances()
             }
+        } else {
+            shouldRetry = true
         }
     }
-    
+
+    func retryAction() {
+        currentPopUpType = .question(gemObject)
+        gameData.decreaseAnswerChances()
+        shouldRetry = false
+    }
+
     
     let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
     
@@ -61,9 +68,17 @@ struct IslandView: View {
                 .animation(.easeInOut, value: selectedPart)
             }
             else if let currentType = currentPopUpType {
-                PopUpView(showPopUp: $showPopUp, type: currentType) { isCorrect in
-                    handleAnswer(isCorrect: isCorrect)
-                }
+                PopUpView(
+                    showPopUp: $showPopUp,
+                    type: currentType,
+                    onAnswered: { isCorrect in
+                        handleAnswer(isCorrect: isCorrect)
+                    },
+                    onRetry: {
+                        retryAction()
+                    }
+                )
+
             }
         }
         // Listen to changes in selectedPart to control the popup

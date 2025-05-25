@@ -6,37 +6,12 @@
 //
 import SwiftUI
 
-extension Text {
-    func outlinedText(strokeColor: Color = .black, textColor: Color = .white, lineWidth: CGFloat = 2) -> some View {
-        ZStack {
-            // Stroke layers
-            ForEach([
-                CGSize(width: -lineWidth, height: 0),
-                CGSize(width: lineWidth, height: 0),
-                CGSize(width: 0, height: -lineWidth),
-                CGSize(width: 0, height: lineWidth),
-                CGSize(width: -lineWidth, height: -lineWidth),
-                CGSize(width: -lineWidth, height: lineWidth),
-                CGSize(width: lineWidth, height: -lineWidth),
-                CGSize(width: lineWidth, height: lineWidth),
-            ], id: \.self) { offset in
-                self
-                    .foregroundColor(strokeColor) // Stroke color
-                    .offset(x: offset.width, y: offset.height+3)
-            }
-
-            // Main centered text
-            self
-                .foregroundColor(textColor)
-        }
-    }
-}
-
-
 struct PopUpView: View {
     @Binding var showPopUp: Bool
     let type: Types
     var onAnswered: ((Bool) -> Void)? = nil
+    var onRetry: (() -> Void)? = nil
+
     
     func buttonAction(num: String, item: Object) {
             let isCorrect = num == item.choices[item.answer]
@@ -58,14 +33,15 @@ struct PopUpView: View {
                 switch type {
                 case .question(let item):
                     ZStack {
+                        ShadowedRoundedBackground(width: 450, height:280)
+                        
                         VStack {
                             VStack(spacing: 16) {
                                 Text(item.question)
-                                    .foregroundColor(.black)
-                                    .font(.londrinaCallout)
+                                    .foregroundColor(.dark)
+                                    .font(.londrinaBody)
                                     .multilineTextAlignment(.center)
                                     .padding([.top])
-                                    .bold()
                                 
                                 let fixedColumns = [
                                     GridItem(.fixed(150)),
@@ -77,27 +53,30 @@ struct PopUpView: View {
                                         Button {
                                             buttonAction(num: choice, item: item)
                                         } label: {
-                                            Text(choice)
-                                                .font(.londrinaLightBody)
-                                                .frame(width: 150, height: 50)
-                                                .foregroundColor(.black)
-                                                .background(.white)
-                                                .cornerRadius(10)
-                                                .overlay(
-                                                    RoundedRectangle(cornerRadius: 10)
-                                                        .stroke(.black, lineWidth: 2)
-                                                )
+                                            ZStack{
+                                                ShadowedRoundedBackground(strokeWidth: 2, width:150, height:50, yOffset: 4)
+                                                Text(choice)
+                                                    .font(.londrinaBody)
+                                                    .frame(width: 150, height: 50)
+                                                    .foregroundColor(.dark)
+                                                    .background(.accent)
+                                                    .cornerRadius(10)
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: 10)
+                                                            .stroke(.dark, lineWidth: 2)
+                                                    )
+                                            }
                                         }
                                     }
                                 }
                             }
-                            .frame(width: 550, height: 250)
+                            .frame(width: 450, height: 280)
                         }
-                        .background(Color.white)
+                        .background(Color.accent)
                         .cornerRadius(10)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(.black, lineWidth: 2)
+                                .stroke(.dark, lineWidth: 4)
                         )
 //                        .frame(height: 500)
                         .padding(.horizontal, 100)
@@ -106,46 +85,80 @@ struct PopUpView: View {
                         Button {
                             showPopUp = false
                         } label: {
-                            Image(systemName: "multiply.circle")
-                                .foregroundColor(.black)
+                            Image("close")
+                                .foregroundColor(.dark)
                                 .font(.title2)
                         }
-                        .offset(x:250, y:-100)
+                        .offset(x:380, y:-150)
                         .buttonStyle(.plain)
                         
                         Text("SOLVE THE RIDDLE")
+                            .foregroundColor(.accent)
                             .font(.londrinaHeadline)
                             .frame(width: 180, height: 50)
-                            .background(.white)
+                            .background(.dark)
                             .cornerRadius(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(.black, lineWidth: 2)
+                                    .stroke(.dark, lineWidth: 2)
                             )
-                            .offset(y: -(500/4))
+                            .offset(y: -(500/3.6))
                         
                     }
+                    .offset(y:15)
                     
                 case .result(let isCorrect):
                     ZStack{
                         Image(isCorrect ? "right" : "wrong")
-                            .resizable()
-                            .frame(width: 200, height: 200)
-                        Text(isCorrect ? "RIDDLE \n SOLVED!" : "WRONG \n ANSWER")
+                            .scaleImage(ratio: 0.7, imageName: "right")
+                        Text(isCorrect ? "RIDDLE" : "WRONG")
                             .font(.jaroBig)
-                            .outlinedText(strokeColor: .black, textColor: .white, lineWidth: 5.5)
+                            .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 5.5)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.center)
+//                            .bold()
+                            .padding()
+                            .offset(y:60)
+                        Text(isCorrect ? "SOLVED!" : "ANSWER")
+                            .font(.jaroBig)
+                            .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 5.5)
                             .multilineTextAlignment(.center)
                             .padding()
-                            .offset(y:95)
+                            .offset(y:110)
                     }
+                    .offset(y:-30)
+                    if !isCorrect {
+                        WigglyButton(title: "Start Game") {
+                            print("Game Starting...")
+                        }
+//                        ZStack {
+//                            ShadowedRoundedBackground(strokeWidth: 2, width: 150, height: 50, yOffset: 4)
+//                            Button {
+//                                onRetry?()
+//                            } label: {
+//                                Text("RETRY")
+//                                    .font(.londrinaTitle)
+//                                    .frame(width: 150, height: 50)
+//                                    .foregroundColor(.accent)
+//                                    .background(.dark2)
+//                                    .cornerRadius(10)
+//                                    .overlay(
+//                                        RoundedRectangle(cornerRadius: 10)
+//                                            .stroke(.dark2, lineWidth: 2)
+//                                    )
+//                            }
+//                        }
+//                        .offset(y: 150)
+                    }
+
                     
                 case .fragment:
                     ZStack {
+                        ShadowedRoundedBackground()
                         VStack {
                             Image("map")
                                 .resizable()
                                 .frame(width:200, height:150)
-                            
 //                            NavigationLink(destination: MapView()
 //                                .ignoresSafeArea(edges: .all)
 //                            ) {
@@ -158,30 +171,20 @@ struct PopUpView: View {
 //                            }
                         }
                         .frame(width: 400, height: 250)
-                        .background(Color.white)
+                        .background(.accent)
                         .cornerRadius(10)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(.black, lineWidth: 2)
+                                .stroke(.dark, lineWidth: 4)
                         )
                         .padding(.horizontal, 100)
                         .transition(.scale.combined(with: .opacity))
-                        
-//                        Button {
-//                            showPopUp = false
-//                        } label: {
-//                            Image(systemName: "multiply.circle")
-//                                .foregroundColor(.black)
-//                                .font(.title2)
-//                        }
-//                        .offset(x:170, y:-100)
-//                        .buttonStyle(.plain)
-                        
+                                                
                         Text("YOU GOT NEW FRAGMENT!")
                             .font(.londrinaHeadline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.accent)
                             .frame(width: 200, height: 50)
-                            .background(.black)
+                            .background(.dark)
                             .cornerRadius(10)
                             .offset(y: -(500/4))
                         
@@ -190,14 +193,13 @@ struct PopUpView: View {
                 case .lost:
                     ZStack{
                         Image("lost")
-                            .resizable()
-                            .frame(width: 200, height: 200)
+                            .scaleImage(ratio: 0.7, imageName: "right")
                         Text("YOU LOST")
-                            .font(.jaroBigX)
-                            .outlinedText(strokeColor: .black, textColor: .white, lineWidth: 5.5)
+                            .font(.jaroBig)
+                            .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 6)
                             .multilineTextAlignment(.center)
                             .padding()
-                            .offset(y:95)
+                            .offset(y:60)
                     }
                 }
             }
@@ -207,7 +209,7 @@ struct PopUpView: View {
 
 
 #Preview {
-    var long = Object(name: "pancakes", question: "I have no legs, but I travel the seas. \n I bury no gold, yet I hold treasures with ease. \n My home is below where the sun cannot see. \n What kind of pirate treasure could I be?", choices: ["A Kraken", "A Shipwreck", "A Treasure Map", "A Parrot"], answer: 1)
+    var long = Object(name: "pancakes", question: "\"I have no legs, but I travel the seas. \n I bury no gold, yet I hold treasures with ease. \n My home is below where the sun cannot see. \n What kind of pirate treasure could I be?\"", choices: ["A Kraken", "A Shipwreck", "A Treasure Map", "A Parrot"], answer: 1)
     
     var short = Object(name: "pancakes", question: "2+2", choices: ["2", "3", "4", "5"], answer: 2)
 //    PopUpView(showPopUp: .constant(true), type: .question(short))
