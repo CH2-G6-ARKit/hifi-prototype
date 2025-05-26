@@ -12,6 +12,7 @@ struct IslandView: View {
     @State var selectedPart: String? = nil
     @State var showPopUp = false
     @State private var currentPopUpType: PopUpView.Types? = nil
+    @State private var showDialogue: Bool = true
     
     func handleAnswer(isCorrect: Bool) {
         currentPopUpType = .result(isCorrect)
@@ -32,11 +33,23 @@ struct IslandView: View {
     
     
     let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
+    @State  var viewModel = DialogViewModel (
+        dialogPages: [
+            dialogPage(title:"\"Welcome to the first Island!\"", description: "In each island, you will need to find an object to open the riddle. the only guide you have is the sound faint, distant, but growing stronger as you approach"),
+            dialogPage(title:"YOUR TASK", description: "1. Follow the sound: The island is alive with echoes-some are clues, others are distractions. The closer you get to the hidden object, the louder and clearer the sound becomes"),
+            dialogPage(title:"YOUR TASK", description: "2. Solve the riddle: Each object you find will reveal a piece of the story and lead you to the next challenge. Pay attention to your surroundings; the answer might be hidden in plain sight"),
+            dialogPage(title:"YOUR TASK", description: "3. Uncover the mystery: Once you answer the riddle, you will get a fragment of map that leads yo to get back the lost ship"),
+            
+        ])
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
+            
             ARViewContainer(selectedPart: $selectedPart)
                 .ignoresSafeArea(edges: .all)
+            
+            
+            DialogView(viewModel: viewModel , isPresented: $showDialogue)
             
             HStack{
                 Image("check_frag")

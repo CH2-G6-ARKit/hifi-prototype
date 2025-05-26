@@ -103,22 +103,31 @@ struct DialogView: View {
                         .frame(maxWidth:.infinity, alignment: .bottomTrailing)
                         .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 20))
                         
-                    }.background(Color("Color"))
+                    }
+                    .background(Color("Color"))
                         .padding()
                         .border(Color("BorderColor"), width: 4)
+                        .offset(y: 200)
                     
-                }.padding(EdgeInsets(top: 100, leading: 2, bottom: 2, trailing: 2))
+                }
 
             Image("Char")
-                .resizable()
-                .aspectRatio(contentMode:.fit)
-                .frame(width: 50, height: 50, alignment: .bottomLeading)
+                .scaleImage(ratio: 0.7, imageName: "Char")
+                .offset(y:-10)
         }
  
     }
 }
 
 #Preview {
-    mainView()
+    @Previewable  var viewModel = DialogViewModel (
+        dialogPages: [
+            dialogPage(title:"\"Welcome to the first Island!\"", description: "In each island, you will need to find an object to open the riddle. the only guide you have is the sound faint, distant, but growing stronger as you approach"),
+            dialogPage(title:"YOUR TASK", description: "1. Follow the sound: The island is alive with echoes-some are clues, others are distractions. The closer you get to the hidden object, the louder and clearer the sound becomes"),
+            dialogPage(title:"YOUR TASK", description: "2. Solve the riddle: Each object you find will reveal a piece of the story and lead you to the next challenge. Pay attention to your surroundings; the answer might be hidden in plain sight"),
+            dialogPage(title:"YOUR TASK", description: "3. Uncover the mystery: Once you answer the riddle, you will get a fragment of map that leads yo to get back the lost ship"),
+            
+        ])
+    DialogView(viewModel: viewModel , isPresented: .constant(true))
 }
 
