@@ -128,27 +128,24 @@ struct PopUpView: View {
                     }
                     .offset(y:-30)
                     if !isCorrect {
-                        WigglyButton(title: "Start Game") {
-                            print("Game Starting...")
+                        ZStack {
+                            ShadowedRoundedBackground(strokeWidth: 2, width: 150, height: 50, yOffset: 4)
+                            Button {
+                                onRetry?()
+                            } label: {
+                                Text("RETRY")
+                                    .font(.londrinaTitle)
+                                    .frame(width: 150, height: 50)
+                                    .foregroundColor(.accent)
+                                    .background(.dark2)
+                                    .cornerRadius(10)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(.dark2, lineWidth: 2)
+                                    )
+                            }
                         }
-//                        ZStack {
-//                            ShadowedRoundedBackground(strokeWidth: 2, width: 150, height: 50, yOffset: 4)
-//                            Button {
-//                                onRetry?()
-//                            } label: {
-//                                Text("RETRY")
-//                                    .font(.londrinaTitle)
-//                                    .frame(width: 150, height: 50)
-//                                    .foregroundColor(.accent)
-//                                    .background(.dark2)
-//                                    .cornerRadius(10)
-//                                    .overlay(
-//                                        RoundedRectangle(cornerRadius: 10)
-//                                            .stroke(.dark2, lineWidth: 2)
-//                                    )
-//                            }
-//                        }
-//                        .offset(y: 150)
+                        .offset(y: 150)
                     }
 
                     
@@ -213,9 +210,9 @@ struct PopUpView: View {
     
     var short = Object(name: "pancakes", question: "2+2", choices: ["2", "3", "4", "5"], answer: 2)
 //    PopUpView(showPopUp: .constant(true), type: .question(short))
-//    PopUpView(showPopUp: .constant(true), type: .question(long))
+    PopUpView(showPopUp: .constant(true), type: .question(long))
 //            PopUpView(showPopUp: .constant(true), type: .result(true))
-        PopUpView(showPopUp: .constant(true), type: .result(false))
+//        PopUpView(showPopUp: .constant(true), type: .result(false))
 //        PopUpView(showPopUp: .constant(true), type: .fragment)
 //    PopUpView(showPopUp: .constant(true), type: .lost)
 }
