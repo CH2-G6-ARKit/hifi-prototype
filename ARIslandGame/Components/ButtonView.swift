@@ -1,0 +1,73 @@
+//
+//  ButtonView.swift
+//  ARIslandGame
+//
+//  Created by Stephanie Staniswinata on 27/05/25.
+//
+
+import SwiftUI
+
+struct ButtonView: View {
+    let btnType: BtnTypes
+    
+    enum BtnTypes{
+        case text(String)
+        case icon(String)
+        case both(String, String)
+    }
+    var body: some View {
+        ZStack{
+            switch btnType {
+            case .text(let string):
+                ShadowedRoundedBackground(width: 150, height: 50)
+                Text(string)
+                    .font(.londrinaTitle)
+                    .frame(width: 150, height: 50)
+                    .foregroundColor(.accent)
+                    .background(.dark2)
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(.dark2, lineWidth: 4)
+                    )
+            case .icon(let image):
+                ShadowedRoundedBackground(cornerRadius: 30, width: 50, height: 50)
+                Image(image)
+                    .renderingMode(.template)
+                    .scaleImage(ratio: 0.15, imageName: image)
+                    .background(.dark2)
+                    .clipShape(Circle())
+                    .foregroundColor(.accent)
+                    .cornerRadius(10)
+                    .overlay(
+                        Circle()
+                            .stroke(.dark2, lineWidth: 4)
+                    )
+            case .both(let string, let img):
+                ShadowedRoundedBackground(width: 150, height: 50)
+                HStack{
+                    Text(string)
+                        .font(.londrinaTitle)
+                        .foregroundColor(.accent)
+                    Image(img)
+                        .renderingMode(.template)
+                        .scaleImage(ratio: 0.1, imageName: "compas")
+                        .foregroundColor(.accent)
+                }
+                .frame(width: 150, height: 50)
+                .background(.dark2)
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(.dark2, lineWidth: 4)
+                )
+            }
+        }
+    }
+}
+
+#Preview {
+    ButtonView(btnType: .text("text"))
+//    ButtonView(btnType: .icon("compas"))
+//    ButtonView(btnType: .both("text", "compas"))
+}

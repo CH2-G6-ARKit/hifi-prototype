@@ -13,51 +13,60 @@ struct IslandView: View {
     @State var showPopUp = false
     @State private var shouldRetry = false
     @State private var currentPopUpType: PopUpView.Types? = nil
+    @State private var navigateToMap = false
     @EnvironmentObject var gameData: GameModel
-
+    
     
     func handleAnswer(isCorrect: Bool) {
         currentPopUpType = .result(isCorrect)
-
+        
         if isCorrect {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                currentPopUpType = .fragment
-                gameData.addCollectedFragment()
-                gameData.resetChances()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    showPopUp = false
-                    selectedPart = nil
-                    currentPopUpType = nil
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        gameData.addCollectedFragment()
+                        currentPopUpType = .fragment(gameData.collectedFragment)
+                        gameData.resetChances()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            showPopUp = false
+                            selectedPart = nil
+                            currentPopUpType = nil
+                        }
+                    }
+                } else {
+                    shouldRetry = true
                 }
-            }
-        } else {
-            shouldRetry = true
-        }
     }
-
+    
     func retryAction() {
         currentPopUpType = .question(gemObject)
         gameData.decreaseAnswerChances()
         shouldRetry = false
     }
-
+    
     
     let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
     
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            ARViewContainer(selectedPart: $selectedPart)
-                .ignoresSafeArea(edges: .all)
+        ZStack{
             
             HStack{
                 Image("check_frag")
                     .scaleImage(ratio: 0.7, imageName: "check_frag")
                     .padding(.horizontal, 10)
-                Image("hint")
-                    .scaleImage(ratio: 0.7, imageName: "hint")
+                Button {
+//                    for testing purposes -- remove this later
+                    currentPopUpType = .question(gemObject)
+                    showPopUp = true
+                } label: {
+                    Image("hint")
+                        .scaleImage(ratio: 0.7, imageName: "hint")
+                }
+
             }
             .offset(x:300, y:-120)
             .zIndex(1)
+            
+            ARViewContainer(selectedPart: $selectedPart)
+                .ignoresSafeArea(edges: .all)
             
             if let part = selectedPart, part != gemObject.name {
                 VStack {
@@ -78,7 +87,7 @@ struct IslandView: View {
                         retryAction()
                     }
                 )
-
+                
             }
         }
         // Listen to changes in selectedPart to control the popup

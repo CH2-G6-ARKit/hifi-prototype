@@ -10,22 +10,38 @@ import SwiftUI
 struct MapView: View {
     @EnvironmentObject var gameData: GameModel
     
-    let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
+    let islands = ["volcanoIsland", "lockedBottom", "lockedTop", "lockedBottom", "lockedTop"]
     
     var body: some View {
-        VStack {
-            Text("Collected Fragments: \(gameData.collectedFragment) / 4")
-                .padding(20)
-            
-            NavigationLink(destination: IslandView().environmentObject(gameData)
-                .ignoresSafeArea(edges: .all)
-            ) {
-                Text("This is first map")
+        GeometryReader{ geometry in
+            ZStack{
+                Text("Collected Fragments: \(gameData.collectedFragment) / 4")
+                    .zIndex(1).offset(x:280, y:-160)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    ZStack{
+
+                        Image("decoration")
+                            .scaleImage(ratio: 0.2, imageName: "mapTrail")
+                            .offset(x:-120)
+                        Image("mapTrail")
+                            .scaleImage(ratio: 0.22, imageName: "mapTrail")
+                            .offset(x:-10)
+                        HStack(spacing: 120) {
+                            ForEach(islands, id: \.self) {i in
+                                NavigationLink(destination: IslandView().environmentObject(gameData)
+                                    .ignoresSafeArea(edges: .all)
+                                ) {
+                                    Image("\(i)")
+                                        .scaleImage(ratio: 0.25, imageName: "\(i)")
+                                }
+                                
+                            }
+                        }
+                    }
+                }
             }
-            
-            Text("This is second map")
-            Text("This is third map")
-            Text("This is first map")
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .background(.accent)
         }
     }
 }
