@@ -21,7 +21,7 @@ extension Image {
 }
 
 struct HomeView: View {
-    @StateObject var gameData = GameModel()
+    @StateObject var gameVM: GameViewModel
     
     var body: some View {
         NavigationStack {
@@ -39,7 +39,9 @@ struct HomeView: View {
                     VStack{
                         Image("title")
                             .scaleImage(ratio: 0.24, imageName: "title")
-                        NavigationLink(destination: MapView().environmentObject(gameData)) {
+                        Button(action: {
+                            gameVM.navigateToMap()
+                        }) {
                             Image("playBtn")
                                 .scaleImage(ratio: 0.24, imageName: "playBtn")
                         }
@@ -50,6 +52,8 @@ struct HomeView: View {
     }
 }
 
-#Preview {
-    HomeView()
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView(gameVM: GameViewModel())
+    }
 }

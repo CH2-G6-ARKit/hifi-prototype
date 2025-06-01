@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct IslandView: View {
-    //    @Binding var isPresented: Bool
     @State var selectedPart: String? = nil
     @State var showPopUp = false
     @State private var shouldRetry = false
