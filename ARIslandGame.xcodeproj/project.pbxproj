@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D47834732DE695DB00D65E85 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D47834722DE695DB00D65E85 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D4782CA22DDC764B00D65E85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,12 +31,21 @@
 		D4782C912DDC764A00D65E85 /* ARIslandGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARIslandGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4782CA12DDC764B00D65E85 /* ARIslandGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARIslandGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4782CAB2DDC764B00D65E85 /* ARIslandGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARIslandGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D47834722DE695DB00D65E85 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D478338E2DE4399800D65E85 /* Exceptions for "ARIslandGame" folder in "ARIslandGameTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ARIslandGameTests/ARIslandGameTests.swift,
+			);
+			target = D4782CA02DDC764B00D65E85 /* ARIslandGameTests */;
+		};
 		D6B6B6722DE05FE700575D0D /* Exceptions for "ARIslandGame" folder in "ARIslandGame" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				ARIslandGameTests/ARIslandGameTests.swift,
 				Info.plist,
 			);
 			target = D4782C902DDC764A00D65E85 /* ARIslandGame */;
@@ -44,13 +57,9 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				D6B6B6722DE05FE700575D0D /* Exceptions for "ARIslandGame" folder in "ARIslandGame" target */,
+				D478338E2DE4399800D65E85 /* Exceptions for "ARIslandGame" folder in "ARIslandGameTests" target */,
 			);
 			path = ARIslandGame;
-			sourceTree = "<group>";
-		};
-		D4782CA42DDC764B00D65E85 /* ARIslandGameTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ARIslandGameTests;
 			sourceTree = "<group>";
 		};
 		D4782CAE2DDC764B00D65E85 /* ARIslandGameUITests */ = {
@@ -89,9 +98,9 @@
 			isa = PBXGroup;
 			children = (
 				D4782C932DDC764A00D65E85 /* ARIslandGame */,
-				D4782CA42DDC764B00D65E85 /* ARIslandGameTests */,
 				D4782CAE2DDC764B00D65E85 /* ARIslandGameUITests */,
 				D4782C922DDC764A00D65E85 /* Products */,
+				D47834722DE695DB00D65E85 /* .gitignore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -142,9 +151,6 @@
 			);
 			dependencies = (
 				D4782CA32DDC764B00D65E85 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				D4782CA42DDC764B00D65E85 /* ARIslandGameTests */,
 			);
 			name = ARIslandGameTests;
 			packageProductDependencies = (
@@ -225,6 +231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D47834732DE695DB00D65E85 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,7 +416,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ARIslandGame/Preview Content\"";
-				DEVELOPMENT_TEAM = QZ9RC3AJUB;
+				DEVELOPMENT_TEAM = R5Z572B6J9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ARIslandGame/Info.plist";
@@ -439,7 +446,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ARIslandGame/Preview Content\"";
-				DEVELOPMENT_TEAM = QZ9RC3AJUB;
+				DEVELOPMENT_TEAM = R5Z572B6J9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ARIslandGame/Info.plist";
