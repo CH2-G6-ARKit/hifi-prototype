@@ -30,7 +30,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		D6B6B6722DE05FE700575D0D /* Exceptions for "ARIslandGame" folder in "ARIslandGame" target */ = {
+		8C0FE1BA2DE406DF00715ECA /* Exceptions for "ARIslandGame" folder in "ARIslandGame" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -43,7 +43,7 @@
 		D4782C932DDC764A00D65E85 /* ARIslandGame */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				D6B6B6722DE05FE700575D0D /* Exceptions for "ARIslandGame" folder in "ARIslandGame" target */,
+				8C0FE1BA2DE406DF00715ECA /* Exceptions for "ARIslandGame" folder in "ARIslandGame" target */,
 			);
 			path = ARIslandGame;
 			sourceTree = "<group>";
@@ -409,7 +409,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ARIslandGame/Preview Content\"";
-				DEVELOPMENT_TEAM = QZ9RC3AJUB;
+				DEVELOPMENT_TEAM = H2B3LVTSVK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ARIslandGame/Info.plist";
@@ -439,7 +439,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ARIslandGame/Preview Content\"";
-				DEVELOPMENT_TEAM = QZ9RC3AJUB;
+				DEVELOPMENT_TEAM = H2B3LVTSVK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ARIslandGame/Info.plist";

@@ -13,6 +13,8 @@ struct IslandView: View {
     @State var showPopUp = false
     @State private var shouldRetry = false
     @State private var currentPopUpType: PopUpView.Types? = nil
+    @State private var showDialog = true
+
     @EnvironmentObject var gameData: GameModel
 
     
@@ -43,11 +45,20 @@ struct IslandView: View {
 
     
     let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
+    @State  var viewModel = DialogViewModel ()
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
+            
             ARViewContainer(selectedPart: $selectedPart)
                 .ignoresSafeArea(edges: .all)
+            
+            
+//            DialogView(viewModel: viewModel , isPresented: $showDialogue)
+                .sheet(isPresented: $showDialog) {
+                    DialogView(viewModel: viewModel)
+                }
+
             
             HStack{
                 Image("check_frag")
