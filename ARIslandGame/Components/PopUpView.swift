@@ -21,7 +21,7 @@ struct PopUpView: View {
     enum Types {
         case question(Object)
         case result(Bool)
-        case fragment
+        case fragment(Int)
         case lost
     }
     
@@ -116,7 +116,6 @@ struct PopUpView: View {
                             .outlinedText(strokeColor: .dark, textColor: .accent, lineWidth: 5.5)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
-//                            .bold()
                             .padding()
                             .offset(y:60)
                         Text(isCorrect ? "SOLVED!" : "ANSWER")
@@ -133,38 +132,23 @@ struct PopUpView: View {
                             Button {
                                 onRetry?()
                             } label: {
-                                Text("RETRY")
-                                    .font(.londrinaTitle)
-                                    .frame(width: 150, height: 50)
-                                    .foregroundColor(.accent)
-                                    .background(.dark2)
-                                    .cornerRadius(10)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(.dark2, lineWidth: 2)
-                                    )
+                                ButtonView(btnType: .text("RETRY"))
                             }
                         }
                         .offset(y: 150)
                     }
 
                     
-                case .fragment:
+                case .fragment(let count):
                     ZStack {
                         ShadowedRoundedBackground()
-                        VStack {
-                            Image("map")
-                                .resizable()
-                                .frame(width:200, height:150)
+                        VStack{
+                            FragmentView(count: count)
+//change this 
 //                            NavigationLink(destination: MapView()
 //                                .ignoresSafeArea(edges: .all)
 //                            ) {
-//                                Text("OK")
-//                                    .padding()
-//                                    .padding(.horizontal, 20)
-//                                    .foregroundColor(.white)
-//                                    .background(.black)
-//                                    .cornerRadius(10)
+//                                    ButtonView(btnType: .text("GO TO MAP"))
 //                            }
                         }
                         .frame(width: 400, height: 250)
@@ -175,7 +159,6 @@ struct PopUpView: View {
                                 .stroke(.dark, lineWidth: 4)
                         )
                         .padding(.horizontal, 100)
-                        .transition(.scale.combined(with: .opacity))
                                                 
                         Text("YOU GOT NEW FRAGMENT!")
                             .font(.londrinaHeadline)
@@ -184,7 +167,6 @@ struct PopUpView: View {
                             .background(.dark)
                             .cornerRadius(10)
                             .offset(y: -(500/4))
-                        
                     }
                     
                 case .lost:
@@ -210,9 +192,9 @@ struct PopUpView: View {
     
     var short = Object(name: "pancakes", question: "2+2", choices: ["2", "3", "4", "5"], answer: 2)
 //    PopUpView(showPopUp: .constant(true), type: .question(short))
-    PopUpView(showPopUp: .constant(true), type: .question(long))
+//    PopUpView(showPopUp: .constant(true), type: .question(long))
 //            PopUpView(showPopUp: .constant(true), type: .result(true))
 //        PopUpView(showPopUp: .constant(true), type: .result(false))
-//        PopUpView(showPopUp: .constant(true), type: .fragment)
+        PopUpView(showPopUp: .constant(true), type: .fragment(2))
 //    PopUpView(showPopUp: .constant(true), type: .lost)
 }

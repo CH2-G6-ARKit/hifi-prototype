@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "Fragment placeholder.png",
+      "filename" : "Island Position.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Fragment placeholder 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Fragment placeholder 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

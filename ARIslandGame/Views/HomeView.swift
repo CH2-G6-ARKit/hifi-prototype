@@ -7,44 +7,45 @@
 
 import SwiftUI
 
-extension Image {
-    func scaleImage(ratio: Double, imageName: String) -> some View {
-        let uiImage = UIImage(named: imageName)!
-        
-        var size = uiImage.size
-        size = CGSize(width: size.width * ratio, height: size.height * ratio)
-        
-        return self
-            .resizable()
-            .frame(width: size.width, height: size.height)
-    }
+enum Views: Hashable{
+    case home
+    case map
+    case island
+    case popup
 }
 
 struct HomeView: View {
     @StateObject var gameData = GameModel()
+    @State private var showMap = false
+    //    @State private var path: [Views] = [
     
     var body: some View {
         NavigationStack {
-            VStack {
-                ZStack{
-                    Image("bg_map")
-                        .resizable()
-                        .scaledToFit()
-                    Image("trail")
-                        .scaleImage(ratio: 0.22, imageName: "trail")
-                        .offset(x:-20)
-                    Image("compas")
-                        .scaleImage(ratio: 0.25, imageName: "compas")
-                        .offset(x:220, y:90)
-                    VStack{
-                        Image("title")
-                            .scaleImage(ratio: 0.24, imageName: "title")
-                        NavigationLink(destination: MapView().environmentObject(gameData)) {
-                            Image("playBtn")
-                                .scaleImage(ratio: 0.24, imageName: "playBtn")
+            GeometryReader { geometry in
+                VStack {
+                    ZStack{
+                        Image("bg_map")
+                            .resizable()
+                            .scaledToFit()
+                        Image("trail")
+                        //                        .renderingMode(.template)
+                            .scaleImage(ratio: 0.22, imageName: "trail")
+                        //                        .foregroundColor(.red)
+                            .offset(x:-20)
+                        Image("compas")
+                            .scaleImage(ratio: 0.25, imageName: "compas")
+                            .offset(x:220, y:90)
+                        VStack{
+                            Image("title")
+                                .scaleImage(ratio: 0.24, imageName: "title")
+                            NavigationLink(destination: MapView().environmentObject(gameData)) {
+                                ButtonView(btnType: .text("PLAY"))
+                            }
                         }
                     }
                 }
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .background(.accent)
             }
         }
     }
@@ -52,4 +53,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+//        .background(.accent)
 }
