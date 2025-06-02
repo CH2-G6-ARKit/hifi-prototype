@@ -10,6 +10,7 @@ import SwiftUI
 struct ButtonView: View {
     let btnType: BtnTypes
     
+    
     enum BtnTypes{
         case text(String)
         case icon(String)
@@ -31,17 +32,17 @@ struct ButtonView: View {
                             .stroke(.dark2, lineWidth: 4)
                     )
             case .icon(let image):
-                ShadowedRoundedBackground(cornerRadius: 30, width: 50, height: 50)
+                ShadowedRoundedBackground(cornerRadius: 30,strokeWidth: 3 , width: 45, height: 45, yOffset: 4)
                 Image(image)
                     .renderingMode(.template)
-                    .scaleImage(ratio: 0.15, imageName: image)
-                    .background(.dark2)
+                    .scaleImage(ratio: 1.5, imageName: image)
+                    .background(.accent)
                     .clipShape(Circle())
-                    .foregroundColor(.accent)
+                    .foregroundColor(.dark)
                     .cornerRadius(10)
                     .overlay(
                         Circle()
-                            .stroke(.dark2, lineWidth: 4)
+                            .stroke(.dark, lineWidth: 2)
                     )
             case .both(let string, let img):
                 ShadowedRoundedBackground(width: 150, height: 50)
@@ -67,7 +68,7 @@ struct ButtonView: View {
 }
 
 #Preview {
-    ButtonView(btnType: .text("text"))
-//    ButtonView(btnType: .icon("compas"))
+//    ButtonView(btnType: .text("text"))
+    ButtonView(btnType: .icon("leftArrow"))
 //    ButtonView(btnType: .both("text", "compas"))
 }

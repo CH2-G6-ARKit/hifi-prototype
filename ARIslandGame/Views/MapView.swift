@@ -9,12 +9,38 @@ import SwiftUI
 
 struct MapView: View {
     @EnvironmentObject var gameData: GameModel
+    @Environment(\.dismiss) private var dismiss
     
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     let islands = ["volcanoIsland", "lockedBottom", "lockedTop", "lockedBottom", "lockedTop"]
+    
+    var btnBack : some View { Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+            }) {
+                HStack {
+                    ButtonView(btnType: .icon("leftArrow"))
+                    Text("Go back")
+                        .foregroundColor(.black)
+                }
+            }
+        }
     
     var body: some View {
         GeometryReader{ geometry in
             ZStack{
+                HStack {
+                    ZStack{
+                        ShadowedRoundedBackground(cornerRadius: 25, width: 25, height:25)
+                        Image("leftArrow")
+                            .renderingMode(.template)
+                            .foregroundColor(.dark)
+                            .background(.accent)
+                            .clipShape(Circle())
+                    }
+                    Text("SELECT LEVEL")
+                        .font(.londrinaBody)
+                        .foregroundColor(.black)
+                }
                 Text("Collected Fragments: \(gameData.collectedFragment) / 4")
                     .zIndex(1).offset(x:280, y:-160)
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -43,6 +69,7 @@ struct MapView: View {
             .frame(width: geometry.size.width, height: geometry.size.height)
             .background(.accent)
         }
+        .navigationBarItems(leading: btnBack)
     }
 }
 

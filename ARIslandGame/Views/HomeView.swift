@@ -17,7 +17,7 @@ enum Views: Hashable{
 struct HomeView: View {
     @StateObject var gameData = GameModel()
     @State private var showMap = false
-    //    @State private var path: [Views] = []
+    //    @State private var path: [Views] = [
     
     var body: some View {
         NavigationStack {
