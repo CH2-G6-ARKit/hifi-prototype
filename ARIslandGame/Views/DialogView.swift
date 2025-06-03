@@ -8,42 +8,11 @@
 import Foundation
 import SwiftUI
 
-//struct hintView: View{
-//
-//    @State private var showHint = false
-//    @ObservedObject var viewModel: DialogViewModel
-//    @Environment(\.dismiss) private var dismiss
-//
-//    var body: some View{
-//        VStack {
-//            ForEach(viewModel.dialogPages) { page in
-//                VStack(alignment: .leading, spacing: 8) {
-//                        Text(page.title)
-//                            .font(.headline)
-//                        
-//                        Text(page.description)
-//                            .font(.subheadline)
-//                    }
-//                .padding(.vertical, 4)
-//            }
-//            
-//
-//        }
-//        
-//        
-//    }
-//}
-
-
-
 struct DialogView: View {
     @ObservedObject var viewModel: DialogViewModel
-//    @Binding var isPresented: Bool
+    //    @Binding var isPresented: Bool
     
     @Environment(\.dismiss) private var dismiss
-    //    @State private var showSummary = false
-   
-    
     
     var body: some View {
         
@@ -53,78 +22,67 @@ struct DialogView: View {
                 .font(.largeTitle)
                 .bold()
             Spacer()
-            
-            Button(){
-                //                showSummary = true
-                print("Show Summary")
-//                hintView(viewModel: viewModel)
-            } label:{
-                Image("hint")
-                
-            }.buttonStyle(.plain)
-                .multilineTextAlignment(.trailing)
-            //                .sheet(isPresented: $showSummary) {
-            //                            DialogView(dialogPages: viewModel.dialogPages)
         }.padding()
-
+        
         
         ScrollView (){
-                    LazyVStack(alignment:.leading){
-                        
-                        Text(viewModel.dialogPages[viewModel.currentIndex].title)
-                            .font(.londrinaHeadline)
-                            .multilineTextAlignment(.leading)
-                            .padding(EdgeInsets(top: 15, leading: 10, bottom: 2, trailing: 10))
-                        
-                        ExpandableTextView(text: viewModel.dialogPages[viewModel.currentIndex].description)
-                            .font(.kanitRegularBody)
-                        
-
-                            HStack(){
-                                    if viewModel.isfirstPage(){
-                                        Button(){
-                                            viewModel.nextPage()
-                                        }label: {
-                                            Image("Right Arrow_Colored")
-                                        }.buttonStyle(.plain)
-                                    }else if viewModel.isMiddlePage() {
-                                        Button(){
-                                            viewModel.prevPage()
-                                        }label: {
-                                            Image("Left Arrow_Colored")
-                                        }.buttonStyle(.plain)
-                                        Button(){
-                                            viewModel.nextPage()
-                                        }label: {
-                                            Image("Right Arrow_Colored")
-                                        }.buttonStyle(.plain)
-                                    }else if viewModel.isLastPage() {
-                                        Button(){
-                                            print("Button tapped")
-                                            dismiss()
-                                        }label:{
-                                            Image("Continue")
-                                        }.buttonStyle(.plain)
-                                    }
-                            }
-                            .frame(maxWidth:.infinity, alignment: .bottomTrailing)
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 20))
-    
-                                
-                        
+            LazyVStack(alignment:.leading){
+                
+                Text(viewModel.dialogPages[viewModel.currentIndex].title)
+                    .font(.londrinaHeadline)
+                    .multilineTextAlignment(.leading)
+                    .padding(EdgeInsets(top: 15, leading: 10, bottom: 2, trailing: 10))
+                
+                ExpandableTextView(text: viewModel.dialogPages[viewModel.currentIndex].description)
+                    .font(.kanitRegularBody)
+                
+                
+                HStack(){
+                    if viewModel.isfirstPage(){
+                        Button(){
+                            viewModel.nextPage()
+                        }label: {
+                            Image("Right Arrow_Colored")
+                        }.buttonStyle(.plain)
+                    }else if viewModel.isMiddlePage() {
+                        Button(){
+                            viewModel.prevPage()
+                        }label: {
+                            Image("Left Arrow_Colored")
+                        }.buttonStyle(.plain)
+                        Button(){
+                            viewModel.nextPage()
+                        }label: {
+                            Image("Right Arrow_Colored")
+                        }.buttonStyle(.plain)
+                    }else if viewModel.isLastPage() {
+                        Button(){
+                            print("Button tapped")
+                            dismiss()
+                        }label:{
+                            Image("Continue")
+                        }.buttonStyle(.plain)
                     }
-                    .background(Color("AccentColor"))
-                    .padding()
-                        .border(Color("BorderColor"), width: 4)
-//                        .offset(y: 200)
-                    
+                }
+                .frame(maxWidth:.infinity, alignment: .bottomTrailing)
+                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 20))
+                
+                
+                
+            }
+            .background(Color("AccentColor"))
+            .padding()
+            .border(Color("BorderColor"), width: 4)
+            //                        .offset(y: 200)
+            
         } .padding(EdgeInsets(top: 90, leading: 5, bottom: 2, trailing: 5))
     }
 }
 
+
 #Preview {
     @Previewable  var viewModel = DialogViewModel()
-        
-   DialogView(viewModel: viewModel /*isPresented: .constant(true)*/)
+    
+    DialogView(viewModel: viewModel /*isPresented: .constant(true)*/)
 }
 

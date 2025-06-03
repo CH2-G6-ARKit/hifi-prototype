@@ -44,10 +44,6 @@ class DialogViewModel: ObservableObject{
         return currentIndex == 0
     }
     
-    func showSummary(){
-        dialogPagesData
-    }
-    
 }
 
 let dialogPagesData = [

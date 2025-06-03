@@ -14,6 +14,7 @@ struct IslandView: View {
     @State private var shouldRetry = false
     @State private var currentPopUpType: PopUpView.Types? = nil
     @State private var showDialog = true
+    @State  var viewModel = DialogViewModel ()
 
     @EnvironmentObject var gameData: GameModel
 
@@ -45,7 +46,7 @@ struct IslandView: View {
 
     
     let gemObject = Object(name: "gems", question: "2+2", choices: ["3", "4", "6", "8"], answer: 1)
-    @State  var viewModel = DialogViewModel ()
+  
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
